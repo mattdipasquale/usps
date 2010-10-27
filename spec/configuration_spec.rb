@@ -6,14 +6,20 @@ describe USPS::Configuration do
     @config = USPS::Configuration.new
   end
 
+  it "should have the expected fields" do
+    @config.should respond_to(
+      :username, :username=,
+      :testing, :testing=
+    )
+  end
+
   it "should have some sensible defaults" do
     @config.username.should be_nil
-    @config.timeout.should == 5000
     @config.testing.should be_false
   end
 
   it "should grab the username from the environment if available" do
-    ENV['USPS_USER'] = 'malcom77'
-    USPS::Configuration.new.username.should == 'malcom77'
+    ENV['USPS_USER'] = 'mattdipasquale'
+    USPS::Configuration.new.username.should == 'mattdipasquale'
   end
 end

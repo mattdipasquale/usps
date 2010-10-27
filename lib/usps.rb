@@ -1,45 +1,24 @@
-require 'builder'
 require 'nokogiri'
+require 'open-uri'
 
 module USPS
-  require 'usps/errors'
+  SERVER = 'http://production.shippingapis.com/'
+  require 'usps/address'
   require 'usps/configuration'
-
-  autoload :Client,   'usps/client'
-  autoload :Address,  'usps/address'
-  autoload :Request,  'usps/request'
-  autoload :Response, 'usps/response'
+  require 'usps/errors'
 
   class << self
-    attr_writer :config
-
-    def client
-      @client ||= Client.new
-    end
-
-    def testing=(val)
-      config.testing = val
-    end
-
     def config
       @config ||= Configuration.new
     end
+    attr_writer :config
 
     def configure(&block)
       block.call(self.config)
     end
 
-    # These two methods are currently here for backwards compatability
-    def username=(user)
-      config.username = user
-    end
-
-    def username
-      config.username
-    end
-
-    def get_city_and_state_for_zip(zip)
-      USPS::Request::CityAndStateLookup.new(zip).send!.get(zip)
+    def server
+      SERVER + config.testing ? "ShippingAPITest.dll" : "ShippingAPI.dll"
     end
   end
 end
