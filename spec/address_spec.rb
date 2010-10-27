@@ -17,12 +17,12 @@ describe USPS::Address do
 
   it "should be initializable with a hash" do
     address = USPS::Address.new(
-      :name => 'Chris',
+      :firm_name => 'Chris',
       :address2 => '123 Main St',
       :city => 'Holland'
     )
 
-    address.name.should == 'Chris'
+    address.firm_name.should == 'Chris'
     address.address2.should == '123 Main St'
     address.city.should == 'Holland'
   end

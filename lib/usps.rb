@@ -18,7 +18,7 @@ module USPS
     end
 
     def server
-      SERVER + config.testing ? "ShippingAPITest.dll" : "ShippingAPI.dll"
+      SERVER + (config.testing ? "ShippingAPITest.dll" : "ShippingAPI.dll")
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe USPS do
-  before(:each) do
+  before(:all) do
     @server = 'http://production.shippingapis.com/'
     USPS.configure do |config|
       config.username = 'mattdipasquale'

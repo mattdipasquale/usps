@@ -1,5 +1,5 @@
-usps-address
-============
+usps
+====
 
 Ruby API for standardizing addresses with USPS WebTools API found here:
 http://www.usps.com/webtools/technical.htm

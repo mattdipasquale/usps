@@ -1,9 +1,9 @@
 require 'rubygems'
-require 'spec'
+require 'rspec/core'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), %w(.. lib)))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-require 'usps-address'
+require 'usps'
 
 USPS.config.username = 'TESTING'
