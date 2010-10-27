@@ -1,9 +1,9 @@
 ## MAC OS
 .DS_Store
+.localized
 
-## TEXTMATE
-*.tmproj
-tmtags
+## Windows
+Thumbs.db
 
 ## EMACS
 *~
@@ -14,8 +14,7 @@ tmtags
 *.swp
 
 ## PROJECT::GENERAL
-coverage
+coverage.data
 rdoc
-pkg
 
 ## PROJECT::SPECIFIC
