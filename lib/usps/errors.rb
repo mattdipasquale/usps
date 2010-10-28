@@ -1,11 +1,11 @@
 module USPS
   class Error < StandardError
-    attr_reader :number, :source
+    attr_reader :code, :source
 
-    def initialize(number, description, source)
-      @number = number
-      super(description)
+    def initialize(code, source, message)
+      @code = code
       @source = source
+      super(message)
     end
 
     def self.for_code(code)

@@ -15,16 +15,18 @@ describe USPS::Address do
     )
   end
 
-  it "should be initializable with a hash" do
-    address = USPS::Address.new(
-      :firm_name => 'Chris',
-      :address2 => '123 Main St',
-      :city => 'Holland'
+  before(:all) do
+    @address = USPS::Address.new(
+      :address2 => '6406 Ivy Lane',
+      :city => 'Greenbelt',
+      :state => 'MD'
     )
+  end
 
-    address.firm_name.should == 'Chris'
-    address.address2.should == '123 Main St'
-    address.city.should == 'Holland'
+  it "should be initializable with a hash" do
+    @address.address2.should == '6406 Ivy Lane'
+    @address.city.should == 'Greenbelt'
+    @address.state.should == 'MD'
   end
 
   it "should know how to combine the zip coes" do
@@ -39,25 +41,22 @@ describe USPS::Address do
     address.zip.should  == '12345-9988'
   end
 
-  it "should be able to be verified with the USPS" do
-    address = USPS::Address.new(
-      :firm_name => 'President Lincoln',
-      :address2 => '1600 Pennsylvania Avenue NW',
-      :city => 'Washington',
-      :state => 'DC',
-      :zip => 20006
-    )
+  it "should build the HTTP request" do
+    request = 'http://production.shippingapis.com/ShippingAPI(Test)?.dll?API=Verify&XML=<AddressValidateRequest USERID="' + USPS.config.username + '"><Address ID="0"><FirmName></FirmName><Address1></Address1><Address2>' + @address.address2 + '</Address2><City>' + @address.city + '</City><State>' + @address.state + '</State><Zip5></Zip5><Zip4></Zip4></Address></AddressValidateRequest>'
+  end
 
-    address.expects(:standardize).returns(
-      load_xml('address_standardization_1.xml')
-    )
+  it "should parse the XML response" do
+    success = '<?xml version="1.0"?><AddressValidateResponse><Address ID="0"><Address2>6406 IVY LN</Address2><City>GREENBELT</City><State>MD</State><Zip5>20770</Zip5><Zip4>1441</Zip4></Address></AddressValidateResponse>'
+    error = '<?xml version="1.0"?><AddressValidateResponse><Address ID="0"><Error><Number>-2147219079</Number><Source>;SOLServerTest.UnpackAddressNode</Source><Description>Invalid XML Element content is invalid according to the DTD/Schema. Expecting: FirmName, Address1.</Description><HelpFile></HelpFile><HelpContext></HelpContext></Error></Address></AddressValidateResponse>'
 
-    address.valid?.should be_true
-
-    error = USPS::Error.new('error', '1234', 'source')
-    # Failure
-    USPS.client.expects(:request).raises(error)
-    address.valid?.should be_false
-    address.error.should be(error)
+    begin
+      @address.standardize
+    rescue
+      error = @address.error
+      puts
+      puts error.code
+      puts error.source
+      puts error.message
+    end
   end
 end

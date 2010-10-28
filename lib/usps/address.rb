@@ -28,16 +28,9 @@ class USPS::Address
     self.zip5, self.zip4 = val.to_s.split('-')
   end
 
-  def valid?
-    @error = nil
-    standardize
-    true
-  rescue USPS::Error => e
-    @error = e
-    false
-  end
-
   def standardize
+    @error = nil # clear previous error
+
     # Generate the URI from this Address.
     uri = USPS.server + '?API=Verify&XML=<AddressValidateRequest ' +
           'USERID="' + USPS.config.username + '"><Address ID="0">'
@@ -50,10 +43,11 @@ class USPS::Address
     # Send the request synchronously and parse the response document.
     doc = Nokogiri::XML(open(URI.encode(uri)))
     if (error = doc.at_css('Error')) # handle error
-      description = error.at_css("Description").text
       code = error.at_css('Number').text
       source = error.at_css('Source').text
-      raise Error.for_code(code).new(description, code, source)
+      message = error.at_css("Description").text
+      @error = USPS::Error.for_code(code).new(code, source, message)
+      raise @error
     else # handle OK responses
       address = Address.new
       root = doc.at_css('Address')

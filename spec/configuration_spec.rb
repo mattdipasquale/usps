@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe USPS::Configuration do
-  before(:each) do
+  before(:all) do
     ENV['USPS_USER'] = nil
     @config = USPS::Configuration.new
   end
