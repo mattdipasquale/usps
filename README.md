@@ -1,18 +1,17 @@
 usps
 ====
 
-Ruby API for standardizing addresses with USPS WebTools API found here:
-http://www.usps.com/webtools/technical.htm
+Ruby API for standardizing addresses with the [USPS WebTools API][1]
+--------------------------------------------------------------------
 
-Usage of this library assumes you already have a USPS API account and that all
-privileges have been granted.
-
-This gem was forked from http://github.com/gaffneyc/usps.git because:
+This gem was forked from <http://github.com/gaffneyc/usps> because:
 
 * I couldn't get it working. I was getting a weird thread error.
 * I only wanted support for address standardization.
 * I didn't want to use the typhoeus gem cause I was fine making synchronous
   (blocking) requests to the USPS WebTools API.
+
+If you'd rather not use a gem, you may use the code from this [usps gist][2].
 
 
 Exposed API Calls
@@ -23,26 +22,31 @@ The following USPS API calls are currently exposed through this library:
    <AddressValidateRequest>             -- USPS::Address
 
 
-How to use?
------------
+Instructions
+------------
 
-This library assumes that either ENV['USPS_USER'] is set, or that you set
-USPS.username to your USPS API username.
+[Request authorization to use the USPS Web Tools Address Information APIs][2].
 
-See http://github.com/mattdipasquale/usps_app
+Set `ENV['USPS_USER']` or `USPS.config.username` to your USPS API username.
+
+See this [example USPS app][3]. Its readme has detailed usage instructions.
 
 
-Note on Patches/Pull Requests
------------------------------
+Contribute
+----------
 
 * Fork the project.
-* Make your feature addition or bug fix.
-* Add specs for it. This is important so we don't break it in a future version
-  unintentionally.
-* Commit, do not mess with Rakefile, version, or history. (if you want to have
-  your own version, that is fine, but bump version in a commit by itself. I can
-  ignore when I pull.)
-* Send me a pull request. Bonus points for topic branches.
+* Add specs for the feature addition or bug fix so that we can make sure
+  everything's working after making further developments. Implement.
+* Commit and send a pull request. Bonus points for topic branches.
+
+<hr />
+
+Copyright (c) 2010 [Matt Di Pasquale][4] & Chris Gaffney. See MIT-LICENSE.
 
 
-Copyright (c) 2010 Matt Di Pasquale & Chris Gaffney. See LICENSE for details.
+[1]: http://www.usps.com/webtools/technical.htm
+[2]: http://gist.github.com/641363
+[3]: http://www.usps.com/webtools/webtoolsapirequestform.htm
+[4]: http://github.com/mattdipasquale/usps_app
+[5]: http://www.mattdipasquale.com/
